@@ -1,0 +1,37 @@
+name: Flutter CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-test-analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Pub get (skip if project not present)
+        if: ${{ hashFiles('medfiles/pubspec.yaml') != '' }}
+        run: flutter pub get
+        working-directory: medfiles
+
+      - name: Analyze (skip if project not present)
+        if: ${{ hashFiles('medfiles/pubspec.yaml') != '' }}
+        run: flutter analyze
+        working-directory: medfiles
+
+      - name: Run tests with coverage (skip if project not present)
+        if: ${{ hashFiles('medfiles/pubspec.yaml') != '' }}
+        run: flutter test --coverage
+        working-directory: medfiles
+
+      - name: Build Android APK (skip if project not present)
+        if: ${{ hashFiles('medfiles/android/app/build.gradle') != '' }}
+        run: flutter build apk --release
+        working-directory: medfiles

@@ -1,0 +1,349 @@
+---
+alwaysApply: false
+---
+
+# Generic Implementation Workflow (LLM-Optimized)
+
+This document provides a structured, LLM-friendly implementation workflow for technical projects requiring systematic changes across multiple components.
+
+## 🎯 **GOAL DEFINITION REQUIREMENT**
+
+**🚨 CRITICAL: Before any implementation begins, a clear goal must be established.**
+
+## CRITICAL PARTNER MINDEST
+
+Do no affirm my statements or assume my conclusions are correct. Question assuptions, offer counterpoints, test reasoning. Prioritise truth over agreement.
+
+## EXEUCTION SEQUENCE (always reply with "Applying rules X,Y,Z")
+
+1. SEARCH FIRST - Use codebase_search/grep/web_search/MCP tools until finding similar functionality or confirming none exists. Investigate deeply, be 100% sure before implementing.
+2. REUSE FIRST - Check existing functions/patterns/structure. Extend before creating new. Strive to smallest possible code changes
+3. NO ASSUMPTIONS - Only use: files read, user messages, tool results. Missing info? Search then ask user.
+4. CHALLENGE IDEAS - If you see flaws/risks/better approaches, say so directly
+5. BE HONEST - State what's needed/problematic, don't sugarcoat to please
+
+##CODING Standards
+
+- Plan before coding, explain reasoning for complex suggestions
+- No code comments - write self-explanatory code- Keep imports alphabetically sorted
+- Keep code SOLID but simple - separateion of concers without over-engineering
+- Aim to keep files under 300 lines - split when it improves clarity
+
+### **If No Phases/Steps Are Defined:**
+
+When this workflow is initiated without predefined phases and steps, the LLM MUST:
+
+1. **REQUEST GOAL DEFINITION**: Ask the user to describe their implementation goal in detail
+2. **GATHER REQUIREMENTS**: Ask clarifying questions about:
+
+- What specific outcome they want to achieve
+- What system/component is being modified
+- What technologies/frameworks are involved
+- What constraints or requirements exist
+- What success criteria define completion
+
+3. **RISK ASSESSMENT**: Proactively identify and raise potential risks:
+
+- Technical compatibility issues
+- Breaking changes that could affect other systems
+- Performance implications
+- Security considerations
+- Rollback complexity
+- Testing requirements
+
+4. **DESIGN VALIDATION**: Challenge the approach by asking:
+
+- Have alternative approaches been considered?
+- Are there simpler ways to achieve the same goal?
+- What dependencies might be affected?
+- Are there industry best practices being followed?
+
+5. **CREATE PHASE-BASED PLAN**: After goal definition, ALWAYS structure implementation as:
+
+- **Phases**: Logical groupings of related work (Analysis, Setup, Implementation, Testing, etc.)
+- **Steps**: Discrete tasks within each phase
+- **NO DATES OR TIMESCALES**: Focus on logical sequence and dependencies only
+
+### **Goal Definition Template:**
+
+```
+GOAL: [Clear, specific description of what needs to be achieved]
+SCOPE: [What systems/components will be modified]
+REQUIREMENTS: [Functional and non-functional requirements]
+CONSTRAINTS: [Technical, time, or resource limitations]
+SUCCESS CRITERIA: [How will completion be measured]
+RISKS IDENTIFIED: [Potential issues and mitigation strategies]
+IMPLEMENTATION APPROACH: [High-level strategy for achieving the goal]
+```
+
+**Only after a comprehensive goal is defined should phases and steps be created.**
+
+---
+
+## 📍 **PROGRESS TRACKER**
+
+> **🔄 UPDATE THIS SECTION AFTER EACH COMPLETED STEP**
+
+### 📊 Current Status
+
+| Attribute         | Value         |
+| ----------------- | ------------- |
+| **Current Phase** | _Not Started_ |
+| **Current Step**  | _N/A_         |
+| **Last Updated**  | _TBD_         |
+
+### ✅ Phase Completion Status
+
+- [ ] **PHASE [X]**: [Phase Name - To Be Defined]
+- [ ] **PHASE [Y]**: [Phase Name - To Be Defined]
+- [ ] **Additional phases as needed for specific implementation**
+
+### 📝 Implementation Notes
+
+```
+Add notes about issues encountered, decisions made, or deviations from plan:
+
+[Phase.Step] - [Note]
+```
+
+---
+
+## 🔄 **SEQUENTIAL PROCESSING METHODOLOGY**
+
+### **Pre-Implementation Baseline Requirement**
+
+**🚨 MANDATORY: Before commencing ANY phase, establish baseline code quality:**
+
+- ✅ **Code MUST compile successfully**
+- ✅ **All unit tests MUST pass**
+- ✅ **Codebase must be in a stable, working state**
+- � **COMMIT all uncommitted changes** - Creates safe rollback point
+- �📝 **Document baseline status before starting implementation**
+
+**Rationale:** Starting with a clean, working baseline and committed state ensures that any issues encountered during implementation are caused by the changes being made, not pre-existing problems. Committing changes provides a safe rollback point if the phase encounters insurmountable issues.
+
+### **Phase-by-Phase Implementation**
+
+- **ALL IMPLEMENTATION ACTIONS** must be organized as discrete steps within defined phases
+- **PROCESS ONE PHASE AT A TIME** - Complete all steps in a phase before advancing to the next phase
+- **PROCESS ONE STEP AT A TIME** - Complete each step fully before starting the next step
+- **SEQUENTIAL EXECUTION MANDATORY** - No parallel processing of phases or steps
+- **TRACK CURRENT POSITION** - Always update Current Status section with active phase and step
+- **VALIDATION GATE** - Only advance to next step when Step Validation Strategy passes
+
+### **Step Progression Rules**
+
+1. **Confidence Check**: Before starting step, check confidence level
+
+- **If confidence < 90%**: Inform developer and ask if they want to continue or provide more detail
+- **If confidence ≥ 90%**: Proceed to next step
+
+2. **Start Step**: Update Current Status to show active step
+3. **Execute Step**: Perform all tasks listed for that step
+4. **Validate Step**: Run Step Validation Strategy for current phase
+5. **Document Results**: Record completion status and any fixes applied
+6. **Advance**: Only move to next step when validation passes completely
+
+### **Phase Progression Rules**
+
+1. **Confidence Check**: Before starting phase, check confidence level
+
+- **If confidence < 90%**: Inform developer and ask if they want to continue or provide more detail
+- **If confidence ≥ 90%**: Proceed to next phase
+
+2. **Verify Baseline**: Confirm code compiles and tests pass before starting new phase
+3. **Commit Changes**: Commit all uncommitted changes to create safe rollback point
+4. **Complete All Steps**: Finish every step in current phase
+5. **Phase Validation**: Ensure phase-level validation criteria met
+6. **Update Tracker**: Mark phase complete and advance to next phase
+7. **Reset Step**: Set Current Step to first step of new phase
+
+---
+
+## 🤖 **VALIDATION STRATEGY FRAMEWORK**
+
+### **Step Validation Strategy (Customize per Implementation)**
+
+Define validation criteria appropriate for your specific implementation:
+
+- Build/compile success criteria
+- Test execution requirements
+- Quality gates and checkpoints
+- Expected vs unexpected failure patterns
+
+### **Phase-Based Validation Examples**
+
+**Early Phases (Setup/Configuration):**
+
+- Environment validation
+- Dependency resolution success
+- Configuration syntax validation
+
+**Transition Phases (Migration/Updates):**
+
+- Expected failures during transitions may be acceptable
+- Focus on dependency resolution and structural integrity
+- Distinguish expected vs unexpected failure patterns
+
+**Final Phases (Integration/Testing):**
+
+- Full compilation and test success required
+- Complete functionality validation
+- Performance and quality verification
+
+### **Auto-Fix Strategy**
+
+- **Scope**: Up to 10 automatic fix attempts for unexpected failures only
+- **Common Fixes**: Missing imports, namespace updates, version alignments, path corrections
+- **Manual Escalation**: Complex business logic, architectural decisions, security changes
+
+## 🚨 **CRITICAL IMPLEMENTATION RULES**
+
+### **File Analysis Requirements**
+
+- **MANDATORY**: Read complete files from beginning to end
+- **REASON**: Partial views miss dependencies, configurations, and context
+- **SCOPE**: All configuration files, source code, build files
+
+### **Cross-Project Pattern Analysis**
+
+- **STRATEGY**: Compare working implementations from successful projects
+- **APPLICATION**: Use proven patterns rather than documentation alone
+- **VALIDATION**: Replicate exact working configurations when possible
+
+### **Business Logic Preservation**
+
+- **RULE**: Never change business logic for technical upgrades
+- **APPROACH**: Only update imports, namespaces, and configurations
+- **VALIDATION**: Preserve all existing method behaviors and class relationships
+
+### **Incremental Verification**
+
+- **FREQUENCY**: Validate each change independently
+- **PURPOSE**: Prevent compound errors and complex debugging
+- **METHOD**: Build and test after each logical group of changes
+
+---
+
+## 📋 **PHASE AND STEP STRUCTURE REQUIREMENTS**
+
+### **Phase Creation Rules**
+
+When generating development or implementation plans:
+
+- **ALWAYS organize work into logical phases**
+- **PHASES MUST BE IMPLEMENTED IN SEQUENTIAL ORDER** - Complete one phase before starting the next
+- **NO DATES OR TIMESCALES** - Focus on sequence and dependencies only
+- **Phase examples**: Analysis, Planning, Setup, Development, Testing, Integration, Deployment
+- **Each phase should have a clear deliverable or milestone**
+
+### **Step Definition Rules**
+
+Within each phase:
+
+- **Break work into discrete, actionable steps**
+- **STEPS MUST BE IMPLEMENTED IN SEQUENTIAL ORDER** - Complete one step before starting the next
+- **Each step should be completable independently**
+- **Steps should have clear validation criteria**
+- **Avoid time estimates - focus on task completion**
+
+### **Example Phase Structure**
+
+```
+PHASE 1: ANALYSIS
+Step 1.1: Review current system architecture
+Step 1.2: Identify integration points
+Step 1.3: Document technical requirements
+
+PHASE 2: DESIGN
+Step 2.1: Create technical specifications
+Step 2.2: Design data models
+Step 2.3: Define API contracts
+
+PHASE 3: IMPLEMENTATION
+Step 3.1: Set up development environment
+Step 3.2: Implement core functionality
+Step 3.3: Add error handling and validation
+```
+
+### **Planning Requirements**
+
+- **NO TIMESCALES**: Never include dates, deadlines, or time estimates in plans
+- **PHASE-BASED STRUCTURE**: Always organize work into phases and steps
+- **SEQUENTIAL EXECUTION**: Phases and steps must be completed in order - no parallel execution
+- **LOGICAL SEQUENCE**: Focus on dependencies and logical order of work
+- **MEASURABLE OUTCOMES**: Each phase and step should have clear completion criteria
+- **CONFIDENCE LEVELS**: Each phase and step must have a percent confidence level for completion
+- **Step Confidence**: Individual confidence rating for each step's successful completion
+- **Phase Confidence**: Calculated as reducing balance (compound probability) of all steps in that phase
+- **Example**: Phase with 2 steps at 90% confidence each = 0.9 × 0.9 = 81% phase confidence
+
+---
+
+## 💬 Communication Style Rules
+
+### **Rule: Avoid Repetitive Affirmations**
+
+**MANDATORY**: The AI assistant should avoid using repetitive phrases like:
+
+- "You're absolutely right"
+- "That's correct"
+- "Exactly"
+- Other overly enthusiastic agreement phrases
+
+Instead, the assistant should:
+
+- Get straight to the point
+- Provide direct, helpful responses
+- Use varied, natural language
+- Focus on being informative rather than effusively agreeable
+
+### **Professional Communication Standards**
+
+1. **Direct Communication**: Provide clear, concise responses without unnecessary embellishment
+2. **Varied Language**: Use diverse vocabulary and sentence structures to avoid repetitive patterns
+3. **Informative Focus**: Prioritize delivering useful information over expressing agreement
+4. **Natural Tone**: Maintain a professional but natural conversational style
+5. **Efficient Responses**: Avoid verbose confirmations; move directly to solving problems or providing solutions
+
+### **Examples of Communication Style**
+
+#### **❌ Avoid - Repetitive Affirmations:**
+
+```
+"You're absolutely right! That's exactly correct. You've identified the perfect approach."
+```
+
+#### **✅ Preferred - Direct and Informative:**
+
+```
+"I'll implement that approach. Here's how we can structure the solution..."
+```
+
+#### **❌ Avoid - Overly Enthusiastic Agreement:**
+
+```
+"Exactly! That's a brilliant observation. You're spot on with that analysis."
+```
+
+#### **✅ Preferred - Professional and Direct:**
+
+```
+"That analysis is sound. Let me address the implementation details..."
+```
+
+### **Implementation Guidelines**
+
+- **Start responses with action or information**, not agreement
+- **Use varied sentence beginnings** to avoid pattern repetition
+- **Focus on problem-solving** rather than validation
+- **Maintain professional courtesy** without excessive enthusiasm
+- **Provide immediate value** in every response
+
+This communication style ensures:
+
+- More efficient and productive interactions
+- Focus on technical problem-solving
+- Professional development environment
+- Clear, actionable guidance
+- Reduced conversational overhead
