@@ -42,11 +42,8 @@ class AppDatabaseProvider {
   static final AppDatabaseProvider instance = AppDatabaseProvider._();
 
   dynamic _db;
-  AppDatabaseFactory _factory = _SqlCipherFactory();
-
   // Allow tests to inject FFI factory
-  set factory(AppDatabaseFactory f) => _factory = f;
-  AppDatabaseFactory get factory => _factory;
+  AppDatabaseFactory dbFactory = _SqlCipherFactory();
 
   bool get isOpen => _db != null;
 
@@ -60,10 +57,10 @@ class AppDatabaseProvider {
     String? overrideDbDir,
   }) async {
     if (_db != null) return _db!;
-    final dbDir = overrideDbDir ?? await _factory.getDatabasesPath();
+    final dbDir = overrideDbDir ?? await dbFactory.getDatabasesPath();
     final dbPath = p.join(dbDir, 'medfiles.db');
     final password = passwordFromDek(dekBytes);
-    _db = await _factory.openDatabase(
+    _db = await dbFactory.openDatabase(
       dbPath,
       password: password,
       version: 1,

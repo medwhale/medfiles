@@ -47,7 +47,7 @@ void main() {
       // Ensure FFI factory uses the temporary path
       await databaseFactory.setDatabasesPath(tempDir.path);
       ffiFactory = _FfiFactory(databaseFactory);
-      AppDatabaseProvider.instance.factory = ffiFactory;
+      AppDatabaseProvider.instance.dbFactory = ffiFactory;
     });
 
     tearDown(() async {
