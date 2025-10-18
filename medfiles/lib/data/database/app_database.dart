@@ -4,11 +4,49 @@ import 'dart:typed_data';
 import 'package:path/path.dart' as p;
 import 'package:sqflite_sqlcipher/sqflite.dart' as sqlcipher;
 
+abstract class AppDatabaseFactory {
+  Future<String> getDatabasesPath();
+  Future<dynamic> openDatabase(
+    String path, {
+    String? password,
+    int? version,
+    Future<void> Function(dynamic db)? onConfigure,
+    Future<void> Function(dynamic db, int version)? onCreate,
+  });
+}
+
+class _SqlCipherFactory implements AppDatabaseFactory {
+  @override
+  Future<String> getDatabasesPath() => sqlcipher.getDatabasesPath();
+
+  @override
+  Future<dynamic> openDatabase(
+    String path, {
+    String? password,
+    int? version,
+    Future<void> Function(dynamic db)? onConfigure,
+    Future<void> Function(dynamic db, int version)? onCreate,
+  }) {
+    return sqlcipher.openDatabase(
+      path,
+      password: password,
+      version: version,
+      onConfigure: onConfigure,
+      onCreate: onCreate,
+    );
+  }
+}
+
 class AppDatabaseProvider {
   AppDatabaseProvider._();
   static final AppDatabaseProvider instance = AppDatabaseProvider._();
 
-  sqlcipher.Database? _db;
+  dynamic _db;
+  AppDatabaseFactory _factory = _SqlCipherFactory();
+
+  // Allow tests to inject FFI factory
+  set factory(AppDatabaseFactory f) => _factory = f;
+  AppDatabaseFactory get factory => _factory;
 
   bool get isOpen => _db != null;
 
@@ -17,22 +55,22 @@ class AppDatabaseProvider {
     return base64Encode(dekBytes);
   }
 
-  Future<sqlcipher.Database> openWithDek(
+  Future<dynamic> openWithDek(
     Uint8List dekBytes, {
     String? overrideDbDir,
   }) async {
     if (_db != null) return _db!;
-    final dbDir = overrideDbDir ?? await sqlcipher.getDatabasesPath();
+    final dbDir = overrideDbDir ?? await _factory.getDatabasesPath();
     final dbPath = p.join(dbDir, 'medfiles.db');
     final password = passwordFromDek(dekBytes);
-    _db = await sqlcipher.openDatabase(
+    _db = await _factory.openDatabase(
       dbPath,
       password: password,
       version: 1,
       onConfigure: (db) async {
         await db.execute('PRAGMA foreign_keys = ON;');
       },
-      onCreate: (db, version) async {
+      onCreate: (db, int version) async {
         // Users table (reserved for future app-level settings)
         await db.execute('''
           CREATE TABLE IF NOT EXISTS users (
@@ -84,7 +122,7 @@ class AppDatabaseProvider {
     return _db!;
   }
 
-  sqlcipher.Database get db {
+  dynamic get db {
     final database = _db;
     if (database == null) {
       throw StateError('Database not opened');
